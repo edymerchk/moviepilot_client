@@ -13,7 +13,7 @@ module Moviepilot
     end
 
     def show_welcome_screen
-      @pastel_print.title('Welcome to MoviePilot Client')
+      @pastel_print.welcome(' Welcome to MoviePilot Client ')
     end
 
     def show_main_menu
@@ -63,7 +63,7 @@ module Moviepilot
 
     def show_article(type, article_id)
       article = Gateway.get_article("post", article_id)
-      puts "title: #{article[:title]}"
+      @pastel_print.title(article[:title])
       puts ReverseMarkdown.convert(article[:body])
       show_main_menu
     end
