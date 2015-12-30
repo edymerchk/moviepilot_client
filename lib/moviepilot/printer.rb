@@ -1,5 +1,5 @@
 module Moviepilot
-  class PastelPrint
+  class Printer
 
     def initialize
       @pastel = Pastel.new
@@ -16,6 +16,15 @@ module Moviepilot
 
     def alert(text)
       puts @pastel.decorate(text, :white, :on_red, :bold) + "\n\n"
+    end
+
+    def table(rows)
+      puts Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
+    end
+
+    def article(article)
+      title(article[:title])
+      puts ReverseMarkdown.convert(article[:body])
     end
 
     def clear

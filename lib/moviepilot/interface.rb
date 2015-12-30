@@ -4,7 +4,7 @@ module Moviepilot
     TAGS = %w(superheroes horror young-adult tv)
 
     def initialize
-      @pastel_print = PastelPrint.new
+      @printer = Printer.new
       @articles = []
     end
 
@@ -14,11 +14,11 @@ module Moviepilot
     end
 
     def show_welcome_screen
-      @pastel_print.welcome(' Welcome to MoviePilot Client ')
+      @printer.welcome(' Welcome to MoviePilot Client ')
     end
 
     def show_main_menu
-      @pastel_print.title('Main Menu')
+      @printer.title('Main Menu')
       choose do |menu|
         menu.prompt = 'Please enter a number:'
         menu.choice('Read Articles') { show_tags_menu }
@@ -34,7 +34,7 @@ module Moviepilot
     end
 
     def show_tags_menu
-      @pastel_print.title('Select a tag')
+      @printer.title('Select a tag')
       tag = choose do |menu|
         menu.prompt = 'Please enter a number:'
         TAGS.each { |e| menu.choice(e) }
@@ -45,6 +45,12 @@ module Moviepilot
 
     def show_article_list
       @valid_ids = nil
+      rows = extract_articles_info
+      @printer.table(rows)
+      pick_article_from_list
+    end
+
+    def extract_articles_info
       rows = []
       @articles.each_with_index do |article|
         id     = article['id']
@@ -52,9 +58,7 @@ module Moviepilot
         author = article['author'] ? article['author']['name'] : article['additional_data']['author']['name']
         rows << [id, title, author]
       end
-      table = Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
-      puts table
-      pick_article_from_list
+      rows
     end
 
     def pick_article_from_list
@@ -64,7 +68,7 @@ module Moviepilot
         type = @articles.find { |article| article['id'] == id }['type']
         show_article(type, id)
       else
-        @pastel_print.alert 'Invalid Article ID, try again...'
+        @printer.alert 'Invalid Article ID, try again...'
         pick_article_from_list
       end
     end
@@ -75,8 +79,7 @@ module Moviepilot
 
     def show_article(type, article_id)
       article = Gateway.get_article(type, article_id)
-      @pastel_print.title(article[:title])
-      puts ReverseMarkdown.convert(article[:body])
+      @printer.article(article)
       show_main_menu
     end
   end
