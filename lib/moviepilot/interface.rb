@@ -45,12 +45,11 @@ module Moviepilot
 
     def show_article_list
       @valid_ids = nil
-      rows = extract_articles_info
-      @printer.table(rows)
+      @printer.table(row_of_articles)
       pick_article_from_list
     end
 
-    def extract_articles_info
+    def row_of_articles
       rows = []
       @articles.each_with_index do |article|
         id     = article['id']

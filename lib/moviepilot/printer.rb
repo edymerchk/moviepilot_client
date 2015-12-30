@@ -23,12 +23,12 @@ module Moviepilot
     end
 
     def article(article)
-      title(article[:title])
-      puts ReverseMarkdown.convert(article[:body])
+      title(article['title'])
+      puts ReverseMarkdown.convert(article['html_body'])
     end
 
     def clear
-      system("cls") || system("clear") || puts("\e[H\e[2J")
+      system('cls') || system('clear') || puts("\e[H\e[2J")
     end
   end
 end
