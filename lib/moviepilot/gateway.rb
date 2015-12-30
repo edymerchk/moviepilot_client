@@ -10,7 +10,7 @@ module Moviepilot
     end
 
     def self.get_article(type, id)
-      uri = "#{BASE_PATH}/#{type}s/#{id}"
+      uri = "#{BASE_PATH}/#{type.pluralize}/#{id}"
       article = get_request(uri)
       { body: article['html_body'], title: article['title'] }
     end

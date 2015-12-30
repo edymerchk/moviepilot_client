@@ -3,6 +3,7 @@ require 'reverse_markdown'
 require 'rest-client'
 require 'pastel'
 require 'terminal-table'
+require 'active_support/inflector'
 
 require_relative 'moviepilot/pastel_print'
 require_relative 'moviepilot/gateway'

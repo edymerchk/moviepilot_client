@@ -51,19 +51,23 @@ module Moviepilot
     end
 
     def pick_article_from_list
-      valid_ids = @articles.map{|article| article['id']}
       id_str = ask "Please enter the ID of one Article"
       id = id_str.to_i
       if valid_ids.include?(id)
-        show_article("post", id)
+        type = @articles.find{|article| article['id'] == id}['type']
+        show_article(type, id)
       else
         @pastel_print.alert "Invalid Article ID, try again..."
         pick_article_from_list
       end
     end
 
+    def valid_ids
+      @valid_ids ||= @articles.map{ |article| article['id'] }
+    end
+
     def show_article(type, article_id)
-      article = Gateway.get_article("post", article_id)
+      article = Gateway.get_article(type, article_id)
       @pastel_print.title(article[:title])
       puts ReverseMarkdown.convert(article[:body])
       show_main_menu
