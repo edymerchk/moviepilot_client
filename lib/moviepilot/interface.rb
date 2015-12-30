@@ -1,7 +1,7 @@
 module Moviepilot
   class Interface
 
-    TAGS = %w(superheroes horror young-adult tv latest)
+    TAGS = %w(superheroes horror young-adult tv)
 
     def initialize
       @pastel_print = PastelPrint.new
