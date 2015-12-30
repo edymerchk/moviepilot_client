@@ -22,9 +22,15 @@ module Moviepilot
       choose do |menu|
         menu.prompt = "Please enter a number:"
         menu.choice("Read Articles") { show_tags_menu }
-        menu.choice("Search") { puts "search menu"}
+        menu.choice("Search") { show_search_menu }
         menu.choice("Exit") {}
       end
+    end
+
+    def show_search_menu
+      query = ask("What you looking for?")
+      @articles = Gateway.search(query)
+      show_article_list
     end
 
     def show_tags_menu
@@ -38,11 +44,12 @@ module Moviepilot
     end
 
     def show_article_list
+      @valid_ids = nil
       rows = []
       @articles.each_with_index do |article|
         id     = article['id']
-        title  = article['title']
-        author = article['author']['name']
+        title  = article['title'] || article['name']
+        author = article['author'] ? article['author']['name'] : article['additional_data']['author']['name']
         rows << [id, title, author]
       end
       table = Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
@@ -72,6 +79,5 @@ module Moviepilot
       puts ReverseMarkdown.convert(article[:body])
       show_main_menu
     end
-
   end
 end

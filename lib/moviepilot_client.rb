@@ -4,6 +4,7 @@ require 'rest-client'
 require 'pastel'
 require 'terminal-table'
 require 'active_support/inflector'
+require 'active_support/configurable'
 
 require_relative 'moviepilot/pastel_print'
 require_relative 'moviepilot/gateway'
