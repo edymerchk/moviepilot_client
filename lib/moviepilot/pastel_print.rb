@@ -12,6 +12,5 @@ module Moviepilot
     def alert(text)
       puts @pastel.decorate(text, :white, :on_red, :bold)
     end
-
   end
 end

@@ -21,6 +21,7 @@ GEM
       netrc (~> 0.7)
     reverse_markdown (1.0.0)
       nokogiri
+    terminal-table (1.5.2)
     tty-screen (0.4.3)
     unf (0.1.4)
       unf_ext
@@ -34,6 +35,7 @@ DEPENDENCIES
   pastel
   rest-client
   reverse_markdown
+  terminal-table
 
 BUNDLED WITH
    1.11.2

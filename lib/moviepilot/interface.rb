@@ -37,9 +37,15 @@ module Moviepilot
     end
 
     def show_article_list(articles)
-      articles.each do |article|
-        puts "#{article['id']} - #{article['title']}"
+      rows = []
+      articles.each_with_index do |article|
+        id     = article['id']
+        title  = article['title']
+        author = article['author']['name']
+        rows << [id, title, author]
       end
+      table = Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
+      puts table
       pick_article_from_list(articles)
     end
 
