@@ -5,6 +5,7 @@ module Moviepilot
 
     def initialize
       @pastel_print = PastelPrint.new
+      @articles = []
     end
 
     def run
@@ -32,13 +33,13 @@ module Moviepilot
         menu.prompt = "Please enter a number:"
         TAGS.each{ |e| menu.choice(e) }
       end
-      articles = Gateway.trending_articles(tag)
-      show_article_list(articles)
+      @articles = Gateway.trending_articles(tag)
+      show_article_list
     end
 
-    def show_article_list(articles)
+    def show_article_list
       rows = []
-      articles.each_with_index do |article|
+      @articles.each_with_index do |article|
         id     = article['id']
         title  = article['title']
         author = article['author']['name']
@@ -46,18 +47,18 @@ module Moviepilot
       end
       table = Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
       puts table
-      pick_article_from_list(articles)
+      pick_article_from_list
     end
 
-    def pick_article_from_list(articles)
-      valid_ids = articles.map{|article| article['id']}
+    def pick_article_from_list
+      valid_ids = @articles.map{|article| article['id']}
       id_str = ask "Please enter the ID of one Article"
       id = id_str.to_i
       if valid_ids.include?(id)
         show_article("post", id)
       else
-        @pastel_print.alert "Invalid ID, try again..."
-        pick_article_from_list(articles)
+        @pastel_print.alert "Invalid Article ID, try again..."
+        pick_article_from_list
       end
     end
 
