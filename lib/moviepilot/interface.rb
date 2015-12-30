@@ -20,15 +20,15 @@ module Moviepilot
     def show_main_menu
       @pastel_print.title('Main Menu')
       choose do |menu|
-        menu.prompt = "Please enter a number:"
-        menu.choice("Read Articles") { show_tags_menu }
-        menu.choice("Search") { show_search_menu }
-        menu.choice("Exit") {}
+        menu.prompt = 'Please enter a number:'
+        menu.choice('Read Articles') { show_tags_menu }
+        menu.choice('Search') { show_search_menu }
+        menu.choice('Exit') {}
       end
     end
 
     def show_search_menu
-      query = ask("What you looking for?")
+      query = ask('What you looking for?')
       @articles = Gateway.search(query)
       show_article_list
     end
@@ -36,8 +36,8 @@ module Moviepilot
     def show_tags_menu
       @pastel_print.title('Select a tag')
       tag = choose do |menu|
-        menu.prompt = "Please enter a number:"
-        TAGS.each{ |e| menu.choice(e) }
+        menu.prompt = 'Please enter a number:'
+        TAGS.each { |e| menu.choice(e) }
       end
       @articles = Gateway.trending_articles(tag)
       show_article_list
@@ -58,19 +58,19 @@ module Moviepilot
     end
 
     def pick_article_from_list
-      id_str = ask "Please enter the ID of one Article"
+      id_str = ask 'Please enter the ID of one Article'
       id = id_str.to_i
       if valid_ids.include?(id)
-        type = @articles.find{|article| article['id'] == id}['type']
+        type = @articles.find { |article| article['id'] == id }['type']
         show_article(type, id)
       else
-        @pastel_print.alert "Invalid Article ID, try again..."
+        @pastel_print.alert 'Invalid Article ID, try again...'
         pick_article_from_list
       end
     end
 
     def valid_ids
-      @valid_ids ||= @articles.map{ |article| article['id'] }
+      @valid_ids ||= @articles.map { |article| article['id'] }
     end
 
     def show_article(type, article_id)
