@@ -2,10 +2,11 @@ module Moviepilot
   class Gateway
 
     BASE_PATH = 'http://api.moviepilot.com'
+    PER_PAGE = 8
 
     def self.trending_articles(tag)
       uri = uri_for("tags/#{tag}/trending")
-      result = get_request(uri, per_page: 4)
+      result = get_request(uri, per_page: PER_PAGE)
       result['collection']
     end
 
@@ -16,7 +17,7 @@ module Moviepilot
 
     def self.search(query)
       uri = uri_for('search', 'v3')
-      result = get_request(uri, q: query, per_page: 18, without_type: 'user,tag')
+      result = get_request(uri, q: query, per_page: PER_PAGE, without_type: 'user,tag')
       result['search']
     end
 
