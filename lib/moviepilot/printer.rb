@@ -20,7 +20,7 @@ module Moviepilot
 
     def articles(articles)
       rows = articles.map do |article|
-        [article.id , article.title, article.author]
+        [article.id, article.title, article.author]
       end
       puts Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
     end

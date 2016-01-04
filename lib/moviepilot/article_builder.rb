@@ -5,7 +5,7 @@ class ArticleBuilder
       id: hash.fetch('id'),
       title: hash.fetch('name'),
       author: hash.fetch('additional_data').fetch('author').fetch('name'),
-      type: hash.fetch('type'),
+      type: hash.fetch('type')
     )
   end
 
@@ -14,7 +14,7 @@ class ArticleBuilder
       id: hash.fetch('id'),
       title: hash.fetch('title'),
       author: hash.fetch('author').fetch('name'),
-      type: hash.fetch('type'),
+      type: hash.fetch('type')
     )
   end
 end

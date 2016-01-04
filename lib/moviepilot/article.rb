@@ -8,5 +8,4 @@ class Article
     @author = author
     @type = type
   end
-
 end

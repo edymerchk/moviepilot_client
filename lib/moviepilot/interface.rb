@@ -67,7 +67,7 @@ module Moviepilot
     end
 
     def valid_ids
-      @valid_ids ||= @articles.map { |article| article.id }
+      @valid_ids ||= @articles.map(&:id)
     end
 
     def show_article(type, article_id)
