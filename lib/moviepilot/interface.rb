@@ -44,9 +44,14 @@ module Moviepilot
     end
 
     def show_article_list
-      @valid_ids = nil
-      @printer.articles(@articles)
-      pick_article_from_list
+      if @articles.size > 0
+        @valid_ids = nil
+        @printer.articles(@articles)
+        pick_article_from_list
+      else
+        @printer.alert 'No Articles Found :('
+        show_main_menu
+      end
     end
 
     def pick_article_from_list
