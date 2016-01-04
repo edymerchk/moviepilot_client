@@ -1,6 +1,8 @@
 module Moviepilot
   class Printer
 
+    TRUNCATE_MAX = 40
+
     def initialize
       @pastel = Pastel.new
     end
@@ -20,7 +22,7 @@ module Moviepilot
 
     def articles(articles)
       rows = articles.map do |article|
-        [article.id, article.title, article.author]
+        [article.id, truncate(article.title), truncate(article.author)]
       end
       puts Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
     end
@@ -30,8 +32,14 @@ module Moviepilot
       puts ReverseMarkdown.convert(article['html_body'])
     end
 
-    def clear
-      system('cls') || system('clear') || puts("\e[H\e[2J")
-    end
+    private
+
+      def truncate(string)
+        string.size <= TRUNCATE_MAX ? string : string[0..TRUNCATE_MAX] + '...'
+      end
+
+      def clear
+        system('cls') || system('clear') || puts("\e[H\e[2J")
+      end
   end
 end
