@@ -18,7 +18,10 @@ module Moviepilot
       puts @pastel.decorate(text, :white, :on_red, :bold) + "\n\n"
     end
 
-    def table(rows)
+    def articles(articles)
+      rows = articles.map do |article|
+        [article.id , article.title, article.author]
+      end
       puts Terminal::Table.new title: 'Articles', headings: %w(ID TITLE AUTHOR), rows: rows
     end
 

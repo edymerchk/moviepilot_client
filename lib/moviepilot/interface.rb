@@ -29,7 +29,7 @@ module Moviepilot
 
     def show_search_menu
       query = ask('What you looking for?')
-      @articles = Gateway.search(query)
+      @articles = Gateway.search(query).map { |hash| ArticleBuilder.build_v3(hash) }
       show_article_list
     end
 
@@ -39,32 +39,21 @@ module Moviepilot
         menu.prompt = 'Please enter a number:'
         TAGS.each { |e| menu.choice(e) }
       end
-      @articles = Gateway.trending_articles(tag)
+      @articles = Gateway.trending_articles(tag).map { |hash| ArticleBuilder.build_v4(hash) }
       show_article_list
     end
 
     def show_article_list
       @valid_ids = nil
-      @printer.table(row_of_articles)
+      @printer.articles(@articles)
       pick_article_from_list
-    end
-
-    def row_of_articles
-      rows = []
-      @articles.each_with_index do |article|
-        id     = article['id']
-        title  = article['title'] || article['name']
-        author = article['author'] ? article['author']['name'] : article['additional_data']['author']['name']
-        rows << [id, title, author]
-      end
-      rows
     end
 
     def pick_article_from_list
       id_str = ask 'Please enter the ID of one Article'
       id = id_str.to_i
       if valid_ids.include?(id)
-        type = @articles.find { |article| article['id'] == id }['type']
+        type = @articles.find { |article| article.id == id }.type
         show_article(type, id)
       else
         @printer.alert 'Invalid Article ID, try again...'
@@ -73,7 +62,7 @@ module Moviepilot
     end
 
     def valid_ids
-      @valid_ids ||= @articles.map { |article| article['id'] }
+      @valid_ids ||= @articles.map { |article| article.id }
     end
 
     def show_article(type, article_id)
